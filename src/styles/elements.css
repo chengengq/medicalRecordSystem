@@ -1,0 +1,46 @@
+
+/* 滚动条的宽度 */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  /* 滚动条的滑块 */
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  .el-tabs--card>.el-tabs__header{
+      margin-bottom: 0;
+  }
+  .el-table tr th {
+    background: #e9eaec !important;
+    color: #000;
+    font-size: 17px;
+  }
+  .el-table td,
+  .el-table th {
+    padding: 5px 0;
+    border-color: #ccc;
+  }
+  .el-table td {
+    color: rgb(95, 90, 90);
+    font-size: 16px;
+  }
+  .el-table .el-table__row {
+    background: #fefefe;
+  }
+  .el-table .el-table__row:nth-child(2n) {
+    background: #f1f1f1;
+}
+  .el-table tbody tr:hover > td {
+    background-color: rgba(35, 198, 200, 0.3) !important;
+  }
+/* 表格无数据时显示暂无数据 */
+  .not_table {
+    border-top: 1px solid #ebeef5;
+    border-bottom: 1px solid #ebeef5;
+    line-height: 60px;
+    text-align: center;
+    color: #909399;
+    font-size: 14px;
+  }
