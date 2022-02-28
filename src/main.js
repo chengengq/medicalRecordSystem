@@ -12,6 +12,7 @@ import App from './App';
 import router from './router';
 //pc自适应
 import 'lib-flexible'
+// import '@/utils/permission'
 //时间/条件分类封装
 import VTimer from '@/components/vTimer'
 //分页器封装
@@ -28,6 +29,13 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
+Vue.directive('focus', {
+  // 当被绑定的元素插入到 DOM 中时……
+  inserted: function (el) {
+    // 聚焦元素
+    el.focus()
+  }
+})
 Vue.component('newPagination', newPagination);
 Vue.component('VTimer', VTimer)
 Vue.prototype.exportMethod = exportMethod;

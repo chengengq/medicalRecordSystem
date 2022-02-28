@@ -30,85 +30,92 @@ export default new Router({
         title: '首页录入'
       }
     }, {
-      path: '/scheduling',
-      name: 'scheduling',
-      component: resolve => require(['@/views/home/scheduling'], resolve),
+      path: '/meHomeproofSetup',
+      name: 'meHomeproofSetup',
+      component: resolve => require(['@/views/home/MedicalRecordEntry/meHomeproofSetup'], resolve),
       meta: {
-        comp: 'scheduling',
-        title: '排班'
+        comp: 'meHomeproofSetup',
+        title: '首页校验设置'
       }
     }, {
-      path: '/workloadAccount',
-      name: 'workloadAccount',
-      component: resolve => require(['@/views/home/workloadAccount'], resolve),
+      path: '/meDataVerification',
+      name: 'meDataVerification',
+      component: resolve => require(['@/views/home/MedicalRecordEntry/meDataVerification'], resolve),
       meta: {
-        comp: 'workloadAccount',
-        title: '工作量统计'
+        comp: 'meDataVerification',
+        title: '病案首页数据核查'
       }
     }, {
-      path: '/talentQuery',
-      name: 'talentQuery',
-      component: resolve => require(['@/views/home/talentQuery'], resolve),
+      path: '/drGenerateMedicalRecord',
+      name: 'drGenerateMedicalRecord',
+      component: resolve => require(['@/views/home/directReporting/drGenerateMedicalRecord'], resolve),
       meta: {
-        comp: 'talentQuery',
-        title: '人才查询'
+        comp: 'drGenerateMedicalRecord',
+        title: '生成病案首页'
       }
     }, {
-      path: '/talentExport',
-      name: 'talentExport',
-      component: resolve => require(['@/views/home/talentExport'], resolve),
+      path: '/ddOutpatientDeptSetup',
+      name: 'ddOutpatientDeptSetup',
+      component: resolve => require(['@/views/home/dictionarySettings/dsDepartmentDictionary/ddOutpatientDeptSetup'], resolve),
       meta: {
-        comp: 'talentExport',
-        title: '人才导入'
+        comp: 'ddOutpatientDeptSetup',
+        title: '科室设置'
       }
     }, {
-      path: '/systemSettings',
-      name: 'systemSettings',
-      component: resolve => require(['@/views/home/systemSettings'], resolve),
+      path: '/dsOperationCodeSetting',
+      name: 'dsOperationCodeSetting',
+      component: resolve => require(['@/views/home/dictionarySettings/dsOperationCodeSetting'], resolve),
       meta: {
-        comp: 'systemSettings',
-        title: '系统设置'
-      },
-      children: [{
-        path: '/ssProjectSetup',
-        name: 'ssProjectSetup',
-        component: resolve => require(['@/views/home/systemSettings/ssProjectSetup'], resolve),
-        meta: {
-          comp: 'ssProjectSetup',
-          title: '项目设置'
-        }
-      }, {
-        path: '/ssPersonnelSetup',
-        name: 'ssPersonnelSetup',
-        component: resolve => require(['@/views/home/systemSettings/ssPersonnelSetup'], resolve),
-        meta: {
-          comp: 'ssPersonnelSetup',
-          title: '人员设置'
-        }
-      }, {
-        path: '/ssClosingHours',
-        name: 'ssClosingHours',
-        component: resolve => require(['@/views/home/systemSettings/ssClosingHours'], resolve),
-        meta: {
-          comp: 'ssClosingHours',
-          title: '闭馆时间设置'
-        }
-      }]
-    }, {
-      path: '/compensatoryLeaveExport',
-      name: 'compensatoryLeaveExport',
-      component: resolve => require(['@/views/home/compensatoryLeaveExport'], resolve),
-      meta: {
-        comp: 'compensatoryLeaveExport',
-        title: '调休导入'
+        comp: 'dsOperationCodeSetting',
+        title: '手术码设置'
       }
     }, {
-      path: '/IdlePeopleQuery',
-      name: 'IdlePeopleQuery',
-      component: resolve => require(['@/views/home/IdlePeopleQuery'], resolve),
+      path: '/dsDoctorSetting',
+      name: 'dsDoctorSetting',
+      component: resolve => require(['@/views/home/dictionarySettings/dsDoctorSetting'], resolve),
       meta: {
-        comp: 'IdlePeopleQuery',
-        title: '空闲人员查询'
+        comp: 'dsDoctorSetting',
+        title: '医生设置'
+      }
+    }, {
+      path: '/dsPaymentmethodSetting',
+      name: 'dsPaymentmethodSetting',
+      component: resolve => require(['@/views/home/dictionarySettings/dsPaymentmethodSetting'], resolve),
+      meta: {
+        comp: 'dsPaymentmethodSetting',
+        title: '付款方式设置'
+      }
+    }, {
+      path: '/daIcdSetting',
+      name: 'daIcdSetting',
+      component: resolve => require(['@/views/home/dictionarySettings/daIcdSetting'], resolve),
+      meta: {
+        comp: 'daIcdSetting',
+        title: '诊断码设置'
+      }
+    }, {
+      path: '/ssUseradminister',
+      name: 'ssUseradminister',
+      component: resolve => require(['@/views/home/systemSettings/ssUseradminister'], resolve),
+      meta: {
+        comp: 'ssUseradminister',
+        title: '用户管理'
+      }
+    }, {
+      path: '/ssRoles',
+      name: 'ssRoles',
+      component: resolve => require(['@/views/home/systemSettings/ssRoles'], resolve),
+      meta: {
+        comp: 'ssRoles',
+        title: '角色管理'
+      }
+    }, {
+      path: '/ssMenuadminister',
+      name: 'ssMenuadminister',
+      component: resolve => require(['@/views/home/systemSettings/ssMenuadminister'], resolve),
+      meta: {
+        comp: 'ssMenuadminister',
+        title: '菜单管理'
       }
     }]
   }, {
@@ -119,7 +126,7 @@ export default new Router({
       title: '登录'
     }
   }, {
-    path: '/404',
+    path: '*',
     name: '404',
     component: resolve => require(['@/views/error/404'], resolve),
     meta: {

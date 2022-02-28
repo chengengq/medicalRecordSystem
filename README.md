@@ -1,10 +1,10 @@
-# ccomi
+# medicalRecordSystem
 
-> Cost control of medical insurance
+> medicalRecordSystem
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 

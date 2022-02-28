@@ -12,7 +12,9 @@
   "dependencies": {
     "axios": "^0.21.1",
     "echarts": "^5.0.1",
+    "element-china-area-data": "^5.0.2",
     "element-ui": "^2.15.0",
+    "js-pinyin": "^0.1.9",
     "lib-flexible": "^0.3.2",
     "node-sass": "^4.14.1",
     "qs": "^6.9.6",

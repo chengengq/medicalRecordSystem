@@ -13,9 +13,14 @@
         </div>
         <div class="header_right">
           <div class="home_head_loginout">
-            <el-dropdown trigger="click" style="cursor: pointer;">
+            <el-dropdown
+              @command="handleCommand"
+              trigger="click"
+              style="cursor: pointer;"
+            >
               <i class="el-icon-caret-bottom el-icon--right dropdown_icon"></i>
               <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="a">注销</el-dropdown-item>
                 <el-dropdown-item>关闭全部页面</el-dropdown-item>
                 <el-dropdown-item>刷新页面</el-dropdown-item>
               </el-dropdown-menu>
@@ -24,7 +29,7 @@
         </div>
       </el-header>
       <el-container :style="{ height: setHeight + 'px' }">
-        <el-aside style="width: auto" :width="isCollapse ? '64px' : '200px'">
+        <el-aside :width="isCollapse ? '65px' : '200px'">
           <el-scrollbar style="width:100%; height:100%">
             <div class="home_aside">
               <div class="home_aside_nav">
@@ -35,9 +40,25 @@
                   @select="handleSelect"
                   :collapse="isCollapse"
                   :collapse-transition="false"
+                  background-color="#fafafa"
                   router
-                >
-                  <el-submenu index="2">
+                  ><el-submenu
+                    v-for="(item, index) in routerList"
+                    :key="index"
+                    :index="String(index + 1)"
+                  >
+                    <template slot="title">
+                      <i class="iconfont" v-html="item.menuIcon"></i>
+                      <span>{{ item.title }}</span>
+                    </template>
+                    <el-menu-item
+                      v-for="(items, indexs) in item.children"
+                      :key="indexs"
+                      :index="items.path"
+                      >{{ items.title }}</el-menu-item
+                    >
+                  </el-submenu>
+                  <!-- <el-submenu index="2">
                     <template slot="title">
                       <i class="iconfont icon-luru"></i>
                       <span>病案录入</span>
@@ -45,14 +66,20 @@
                     <el-menu-item index="/meHomepageEntry"
                       >首页录入</el-menu-item
                     >
+                    <el-menu-item index="/meHomeproofSetup"
+                      >首页校验设置</el-menu-item
+                    >
+                    <el-menu-item index="/meDataVerification"
+                      >病案首页数据核查</el-menu-item
+                    >
                   </el-submenu>
                   <el-submenu index="3">
                     <template slot="title">
                       <i class="iconfont icon-binganchaxun"></i>
                       <span>病案查询</span>
                     </template>
-                    <el-menu-item index="/workloadAccount"
-                      >首页录入2</el-menu-item
+                    <el-menu-item index="/ssUseradminister"
+                      >用户管理111</el-menu-item
                     >
                   </el-submenu>
                   <el-submenu index="4">
@@ -60,31 +87,50 @@
                       <i class="iconfont icon-shangbao1"></i>
                       <span>直接上报</span>
                     </template>
-                    <el-menu-item index="/talentQuery">首页录入3</el-menu-item>
+                    <el-menu-item index="/drGenerateMedicalRecord"
+                      >生成病案首页</el-menu-item
+                    >
                   </el-submenu>
                   <el-submenu index="5">
                     <template slot="title">
                       <i class="iconfont icon-baobiaotongji5"></i>
                       <span>报表统计</span>
                     </template>
-                    <el-menu-item index="/talentExport">首页录入4</el-menu-item>
+                    <el-menu-item index="/ssUseradminister"
+                      >用户管理1</el-menu-item
+                    >
                   </el-submenu>
                   <el-submenu index="6">
                     <template slot="title">
                       <i class="iconfont icon-shezhi1"></i>
                       <span>系统管理</span>
                     </template>
-                    <el-menu-item index="/talentExport">首页录入4</el-menu-item>
+                    <el-menu-item index="/ssUseradminister"
+                      >用户管理</el-menu-item
+                    >
+                    <el-menu-item index="/ssRoles">角色管理</el-menu-item>
+                    <el-menu-item index="/ssMenuadminister"
+                      >菜单管理</el-menu-item
+                    >
                   </el-submenu>
                   <el-submenu index="7">
                     <template slot="title">
                       <i class="iconfont icon-ziyuan5"></i>
-                      <span>字典库设置</span>
+                      <span>字典设置</span>
                     </template>
-                    <el-menu-item index="/systemSettings"
-                      >首页录入4</el-menu-item
+                    <el-menu-item index="/ddOutpatientDeptSetup"
+                      >科室设置</el-menu-item
                     >
-                  </el-submenu>
+                    <el-menu-item index="/dsOperationCodeSetting"
+                      >手术码设置</el-menu-item
+                    ><el-menu-item index="/dsDoctorSetting"
+                      >医生设置</el-menu-item
+                    ><el-menu-item index="/dsPaymentmethodSetting"
+                      >付款方式设置</el-menu-item
+                    ><el-menu-item index="/daIcdSetting"
+                      >诊断码设置</el-menu-item
+                    >
+                  </el-submenu> -->
                 </el-menu>
               </div>
             </div>
@@ -92,6 +138,7 @@
         </el-aside>
         <el-main :style="{ height: setHeight + 'px', padding: 0 }">
           <el-tabs
+            class="tab_home"
             v-model="activeTab"
             type="card"
             @tab-remove="removeTab"
@@ -105,7 +152,10 @@
               :closable="item.closable"
               :ref="item.ref"
             >
-              <component :is="item.content"></component>
+              <component
+                v-if="item.name === activeTab"
+                :is="item.content"
+              ></component>
             </el-tab-pane>
           </el-tabs>
         </el-main>
@@ -117,26 +167,51 @@
 <script>
 import HomeHeader from "@/components/homeHeader";
 import welcome from "@/views/home/welcome";
+//病案录入>首页录入
 import meHomepageEntry from "@/views/home/MedicalRecordEntry/meHomepageEntry";
-import scheduling from "@/views/home/scheduling";
-import workloadAccount from "@/views/home/workloadAccount";
-import talentQuery from "@/views/home/talentQuery";
-import talentExport from "@/views/home/talentExport";
-import systemSettings from "@/views/home/systemSettings";
+//病案录入>首页校验设置
+import meHomeproofSetup from "@/views/home/MedicalRecordEntry/meHomeproofSetup";
+//病案录入>病案首页数据核查
+import meDataVerification from "@/views/home/MedicalRecordEntry/meDataVerification";
+//直接上报>生成病案首页
+import drGenerateMedicalRecord from "@/views/home/directReporting/drGenerateMedicalRecord";
+//字典设置>科室字典库>科室设置
+import ddOutpatientDeptSetup from "@/views/home/dictionarySettings/dsDepartmentDictionary/ddOutpatientDeptSetup";
+//字典设置>手术码设置
+import dsOperationCodeSetting from "@/views/home/dictionarySettings/dsOperationCodeSetting";
+//字典设置>医生设置
+import dsDoctorSetting from "@/views/home/dictionarySettings/dsDoctorSetting";
+//字典设置>付款方式设置
+import dsPaymentmethodSetting from "@/views/home/dictionarySettings/dsPaymentmethodSetting";
+//字典设置>诊断码设置
+import daIcdSetting from "@/views/home/dictionarySettings/daIcdSetting";
+//系统管理>用户管理
+import ssUseradminister from "@/views/home/systemSettings/ssUseradminister";
+//系统管理>角色管理
+import ssRoles from "@/views/home/systemSettings/ssRoles";
+//系统管理>菜单管理
+import ssMenuadminister from "@/views/home/systemSettings/ssMenuadminister";
 export default {
   name: "home",
   components: {
     HomeHeader,
     welcome,
     meHomepageEntry,
-    scheduling,
-    workloadAccount,
-    talentQuery,
-    talentExport,
-    systemSettings
+    meHomeproofSetup,
+    meDataVerification,
+    drGenerateMedicalRecord,
+    ddOutpatientDeptSetup,
+    dsOperationCodeSetting,
+    dsDoctorSetting,
+    dsPaymentmethodSetting,
+    daIcdSetting,
+    ssUseradminister,
+    ssRoles,
+    ssMenuadminister
   },
   data() {
     return {
+      routerList: JSON.parse(sessionStorage.routeList),
       collapseBtnClick: false,
       isCollapse: false,
       activeTab: "1", //默认显示的tab
@@ -172,7 +247,7 @@ export default {
   },
   mounted() {
     /*
-     * 监听页面刷新事件
+     * 监听页面刷新事件el-submenu__title
      * 页面刷新前 需要保存当前打开的tabs的位置，刷新后按刷新前的顺序展示
      * 使用js的sessionStorage保存刷新页面前的数据
      * */
@@ -224,6 +299,36 @@ export default {
     }
   },
   methods: {
+    //下拉按钮
+    handleCommand(val) {
+      if (val == "a") {
+        this.$confirm("此操作将注销登录, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$router.push("/login");
+            this.$message({
+              type: "success",
+              message: "注销成功!"
+            });
+            sessionStorage.removeItem("fprn");
+            sessionStorage.removeItem("name");
+            sessionStorage.removeItem("ftimes");
+            sessionStorage.removeItem("fage");
+            sessionStorage.removeItem("userName");
+            sessionStorage.removeItem("userId");
+            sessionStorage.removeItem("entryDate");
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消操作"
+            });
+          });
+      }
+    },
     isOpen() {
       //判断左侧栏是否展开或收缩
       if (this.isCollapse == false) {
@@ -393,16 +498,42 @@ export default {
         width: 100%;
         height: 100%;
         border-top-right-radius: 5px;
-
+        box-shadow: 10px 0 10px -10px #c7c7c7;
         color: #333;
+        .el-submenu.is-active > .el-submenu__title {
+          background: rgb(210, 215, 219) !important;
+        }
+        .el-submenu.is-active {
+          background: rgb(72, 109, 196) !important;
+          color: #e7f4ff;
+        }
+        .el-menu-item.is-active {
+          background: rgb(72, 109, 196) !important;
+          color: #e7f4ff;
+        }
+        /deep/.el-menu--inline {
+          background: #ccc !important;
+        }
+        .el-menu {
+          border-right: none;
+        }
         .home_aside_nav {
           width: 100%;
           height: 100%;
         }
       }
       .el-main {
-        height: 100%;
+        min-height: 100%;
         padding: 0;
+        padding-top: 60px;
+        .tab_home {
+          .el-tabs__header {
+            width: calc(100% - 20px);
+            position: fixed;
+            z-index: 999;
+            background: #fefefe;
+          }
+        }
       }
     }
   }
